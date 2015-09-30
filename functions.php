@@ -3,13 +3,21 @@
 // http://wycks.wordpress.com/2013/02/14/why-the-content_width-wordpress-global-kinda-sucks
 $content_width = 90000; // pixels
 
-function getRedirect() {
-  $url  = $_SERVER["SERVER_NAME"];
-  $url .= $_SERVER["REQUEST_URI"];
-
-  $redirect = preg_replace("/^(.*?)\.(.*)$/","$2", $url);
-
-  return 'http://'.$redirect;
+function getRedirect($postID) {
+  $domain = preg_match('/bloodwater/',$_SERVER['SERVER_NAME'])?'bloodwater.org':preg_replace('/^(.*?)\.(.*)$/','$2', $_SERVER['SERVER_NAME']);
+  if (!is_numeric($postID)) return 'http://'.$domain.$_SERVER["REQUEST_URI"];
+  $post = get_post($postID);
+  if ( is_user_logged_in() ) {
+    $wp_json_nonce = wp_create_nonce('wp_json');
+    $sample_permalink = get_sample_permalink($post->ID, $post->post_title);
+    $permalink_pattern = parse_url($sample_permalink[0])['path'];
+    $redirect_path = preg_replace("/%(.*)%/", $sample_permalink[1], $permalink_pattern); //Put the title slug into the permalink path
+    $redirect_params = '?_wp_json_nonce='.$wp_json_nonce.'&is_preview=true&post_id='.$postID;
+  } else {
+    $permalink = parse_url(get_permalink($post->ID));
+    $redirect_path = $permalink['path'];
+  }
+  return 'http://'.$domain.$redirect_path.$redirect_params;
 }
 
 function setup(){
