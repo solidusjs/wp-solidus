@@ -4,7 +4,12 @@
 $content_width = 90000; // pixels
 
 function getRedirect($postID) {
+
+  // If bloodwater use bloodwater.org else drop subdomain
   $domain = preg_match('/bloodwater/',$_SERVER['SERVER_NAME'])?'bloodwater.org':preg_replace('/^(.*?)\.(.*)$/','$2', $_SERVER['SERVER_NAME']);
+  // Add www unless there is already a subdomain
+  $domain = preg_match('/^(.*)\.(.*)\.(.*)$/',$domain)?$domain:'www.'.$domain;
+
   if (!is_numeric($postID)) return 'http://'.$domain.$_SERVER["REQUEST_URI"];
   $post = get_post($postID);
   if ( is_user_logged_in() ) {
