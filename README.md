@@ -1,3 +1,5 @@
+#wp-solidus
+
 This is a headless WordPress theme for use with the [WordPress JSON API](http://wp-api.org/) and [Solidus](https://github.com/solidusjs/solidus). As much presentation and other cruft as possible has been stripped out except for the following:
 
  - Post formats that match [Tumblr post types][http://www.tumblr.com/docs/en/custom_themes#introduction]. Apply extra styling hooks for these. They should [really be overridden][https://codex.wordpress.org/Post_Formats] on a per site basis however with a [child theme][https://codex.wordpress.org/Child_Themes] to suit your particular requirements.
