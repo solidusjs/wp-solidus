@@ -1,61 +1,93 @@
-This WordPress “theme” is for those of us who use WordPress only as a CMS, get our content as JSON, and build our pages elsewhere. Preferably with less PHP and zero databases. While starting from [_s][_s] essentially everything has been destroyed :boom:
+# `wp-solidus`
 
-&hellip; except for these things:
+> A headless WordPress theme for use with the [WordPress JSON API](http://wp-api.org/) and [Solidus](https://github.com/solidusjs/solidus).
 
- - Post formats that match [Tumblr post types][tumblr-types]. Apply extra styling hooks for these. They should [really be overridden][post-formats] on a per site basis however with a [child theme][child-theme] to suit your particular requirements.
- 
- - A ridiculous content width to override the [equally ridiculous global variable][content-width] that maddeningly overrides image size settings. Bitter? Indeed.
- 
- - Varnish cache purging hackery for WP Engine hosted installs that use the JSON REST API plugin
- 
- - The words of wisdom below :neckbeard:
+Presentation and everything else you'd normally expect in a WordPress theme has been stripped out. This theme has the following features;
 
-### Recommended Plugins
+- [WP REST API Support](#usage)
+- [Redirects to Solidus](#redirects-to-solidus)
+- [Manual content width](#manual-content-width)
+- A helper to flush WP API content from the Varnish cache on WP Engine.
+- [A modified admin menu with redirect to posts on login](#modified-admin-menu)
+- [Theme support for Post Thumbnails, Post Formats and media taxonomies](#enabled-features)
+- [Markdown support for excerpts](#markdown-support-for-excerpts) (Requires Jetpack)
+- [Add custom fields to API response](#add-custom-fields-to-api-response)
 
-We think these plugins make WordPress sing:
+## Table of Contents
 
- - [Category Order and Taxonomy Terms Order][taxonomy-terms-order]
- - [Crop-Thumbnails][crop-thumbnails]
- - [Featured Image Column][featured-image-column]
- - [Polylang][polylang]
- - [Raw HTML Snippets][raw-html-snippets]
- - [Simple Image Sizes][simple-image-sizes]
- - [VaultPress][vaultpress]
- - [WP Smush.it][wp-smushit]
- 
-### JSON
+- [Installation](#installation)
+- [Usage](#usage)
+- [Features](#features)
+- [Contribute](#contribute)
+- [License](#license)
 
-To get your content out of WordPress as JSON, use the excellent [JSON REST API][json-rest-api] and [contribute][json-rest-api-github]. If those PHP response times are killing you, check out [Storyteller.io][storyteller]. Add our very own node.js-based [Solidus][solidus] web server to the mix and you’re set!
+## Installation
 
-### Structured Data
+To install and activate this theme with [`WP-CLI`][wp-cli] use [the theme command][wp-theme] on your WordPress server;
 
-Doing much more with WordPress than managing simple title/body structures? We recommend taking a look at these services instead to save yourself the hackery and PHP:
+```bash
+wp theme install https://github.com/solidusjs/wp-solidus/archive/v1.0.0.zip --activate
+```
 
- - [Contentful][contentful]
- - [Prismic.io][prismic]
- - [Osmek][osmek]
+Change the version number in the URL to match the version number you want to install and activate.
 
+If you prefer to install using the WordPress GUI, download the ZIP of [the latest release][releases] and [install it using the WordPress Admin][theme-installation-instructions].
 
-[_s]: http://underscores.me
-[tumblr-types]: http://www.tumblr.com/docs/en/custom_themes#introduction
-[child-theme]: https://codex.wordpress.org/Child_Themes
-[post-formats]: https://codex.wordpress.org/Post_Formats
-[content-width]: http://wycks.wordpress.com/2013/02/14/why-the-content_width-wordpress-global-kinda-sucks
+## Usage
 
-[taxonomy-terms-order]: https://wordpress.org/plugins/taxonomy-terms-order
-[featured-image-column]: https://wordpress.org/plugins/featured-image-column
-[crop-thumbnails]: https://wordpress.org/plugins/crop-thumbnails
-[polylang]: https://wordpress.org/plugins/polylang
-[raw-html-snippets]: https://wordpress.org/plugins/raw-html-snippets
-[simple-image-sizes]: https://wordpress.org/plugins/simple-image-sizes
-[vaultpress]: http://vaultpress.com
-[wp-smushit]: http://wordpress.org/plugins/wp-smushit
+Usage of this theme requires the [WP REST API][wp-api-docs], which makes content available in JSON format at `examplewordpressdomain.com/wp-json/posts`. Solidus sites use [a fork of the WP REST API plugin][wp-api-plugin] which enables Solidus-related features. WordPress version 4.5 and greater includes the WP REST API, but you need to install the fork for use with Solidus sites.
 
-[json-rest-api]: http://wordpress.org/plugins/json-rest-api
-[json-rest-api-github]: https://github.com/wp-api/wp-api
-[storyteller]: https://www.storyteller.io
-[solidus]: https://github.com/solidusjs
+When this theme is enabled, the site is not visible on the front end. Instead, pages are [redirected to Solidus](#redirects-to-solidus).
 
-[contentful]: https://www.contentful.com
-[prismic]: https://prismic.io
-[osmek]: http://osmek.com
+## Features
+
+### Redirects to Solidus
+
+Post preview links redirect to the corresponding page on the Solidus site. The redirects allow content editors to see updates on the Solidus site before they have been published.
+
+Aside from preview links, other redirects exist but are not extensive. When there's no corresponding Solidus page, redirects take the user either to the Solidus site's home page or 404 page. Consider the WordPress URL to be wrong. Don't share the original WordPress URLs to posts, share the Solidus URL instead.
+
+### Manual Content Width
+
+This theme overrides the [content width global variable][content-width] because it causes problems with image size settings.
+
+### Modified Admin menu
+
+This theme modifies the admin menu removing links to the Dashboard, Comments, Themes, Tools and Feedback, and adding a link the WP REST API documentation. The removed pages are accessible via their URL. For example; use `/wp-admin/themes.php` to access theme settings.
+
+### Enabled Features
+
+This theme has [support turned on][add-theme-support] for [Post Thumbnails][post-thumbnails], and image, quote, link, chat, audio and video [Post Formats][post-formats]. Category and tag [taxonomies][register-taxonomy] are turned on for media attachments.
+
+### Markdown Support for Excerpts
+
+This theme enables markdown support for post excerpts, which parses markdown and returns HTML markup in the API response. In order for markdown support to work, [Jetpack][jetpack] must be installed and activated.
+
+### Add Custom Fields to API Response
+
+If the [Types plugin][types-plugin] is installed, any custom fields created by the Types plugin or [added to Types' control][add-types-control] are added to the API response at `post.types_custom_meta.field_name`.
+
+## Contribute
+
+If you have problems or need support, [open an issue][issues]. If you want to contribute or make changes, you are welcome to [open a pull request][pulls].
+
+## License
+
+[MIT &copy; 2014-2016 Sparkart Group Inc.](./LICENSE.txt)
+
+[wp-cli]:http://wp-cli.org/
+[wp-theme]:http://wp-cli.org/commands/theme/install/
+[wp-api-docs]:http://v2.wp-api.org/
+[wp-api-plugin]:https://github.com/sparkartgroup/WP-API
+[releases]:https://github.com/solidusjs/wp-solidus/releases
+[issues]:https://github.com/solidusjs/wp-solidus/issues
+[pulls]:https://github.com/solidusjs/wp-solidus/pulls
+[theme-installation-instructions]:https://codex.wordpress.org/Using_Themes#Adding_New_Themes_using_the_Administration_Panels
+[content-width]:http://wycks.wordpress.com/2013/02/14/why-the-content_width-wordpress-global-kinda-sucks
+[add-theme-support]:https://developer.wordpress.org/reference/functions/add_theme_support/
+[post-thumbnails]:https://codex.wordpress.org/Post_Thumbnails
+[post-formats]:https://codex.wordpress.org/Post_Formats
+[register-taxonomy]:https://developer.wordpress.org/reference/functions/register_taxonomy_for_object_type/
+[jetpack]:https://jetpack.com/
+[types-plugin]:https://wordpress.org/plugins/types/
+[add-types-control]:https://wp-types.com/faq/how-do-i-convert-existing-custom-types-and-fields-to-types-control/
