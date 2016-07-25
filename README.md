@@ -5,4 +5,4 @@ This is a headless WordPress theme for use with the [WordPress JSON API](http://
  - Post formats that match [Tumblr post types](http://www.tumblr.com/docs/en/custom_themes#introduction). Apply extra styling hooks for these. They [should be overridden](https://codex.wordpress.org/Post_Formats) on a per site basis with a [child theme](https://codex.wordpress.org/Child_Themes) depending on your requirements.
  - Manual content width to override the [content width global variable](http://wycks.wordpress.com/2013/02/14/why-the-content_width-wordpress-global-kinda-sucks) which otherwise causes problems with image size settings.
  - Varnish cache purging for WP Engine hosted installs that use the JSON REST API plugin.
- - Redirects to Solidus on post preview links that enable preview mode and autorize with WordPress in order to allow content editors to preview posts directly in a Solidus website.
+ - Redirects to Solidus on post preview links that enable preview mode and autorize with WordPress so content editors can preview posts directly in a Solidus website.
