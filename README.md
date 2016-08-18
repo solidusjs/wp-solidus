@@ -6,7 +6,6 @@ Presentation and everything else you'd normally expect in a WordPress theme has 
 
 - [WP REST API Support](#usage)
 - [Redirects to Solidus](#redirects-to-solidus)
-- [Tumblr post formats](#tumblr-post-formats)
 - [Manual content width](#manual-content-width)
 - A helper to clear WP API content from the Varnish cache on WP Engine.
 
@@ -43,10 +42,6 @@ When this theme is enabled, the site is not visible on the front end. Instead, p
 Post preview links redirect to the corresponding page on the Solidus site. The redirects allow content editors to see updates on the Solidus site before they have been published.
 
 Aside from preview links, other redirects exist but are not extensive. When there's no corresponding Solidus page, redirects take the user either to the Solidus site's home page or 404 page. Consider the WordPress URL to be wrong. Don't share the original WordPress URLs to posts, share the Solidus URL instead.
-
-### Tumblr Post Formats
-
-This theme applies extra styling hooks to the [post formats][post-formats] for [custom Tumblr themes][tumblr-types]. Override them on a per-site basis using a [child theme][child-theme].
 
 ### Manual Content Width
 
