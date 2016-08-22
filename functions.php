@@ -1,10 +1,8 @@
 <?php
+$content_width = 90000;
 
-// http://wycks.wordpress.com/2013/02/14/why-the-content_width-wordpress-global-kinda-sucks
-$content_width = 90000; // pixels
-
+// Enable redirects for post preview links
 function getRedirect($postID) {
-
   // If bloodwater use bloodwater.org else drop subdomain
   $domain = preg_match('/bloodwater/',$_SERVER['SERVER_NAME'])?'bloodwater.org':preg_replace('/^(.*?)\.(.*)$/','$2', $_SERVER['SERVER_NAME']);
   // Add www unless there is already a subdomain
@@ -45,8 +43,9 @@ function add_markdown_support() {
   }
 }
 
-function api_url(){
+function goto_api_docs(){
   wp_redirect( 'http://wp-api.org' );
+  exit;
 }
 
 function redirect_to_posts($url) {
@@ -54,15 +53,12 @@ function redirect_to_posts($url) {
 }
 
 function customize_menu(){
-  // http://justintadlock.com/archives/2011/06/13/removing-menu-pages-from-the-wordpress-admin
   remove_menu_page('index.php');
   remove_menu_page('edit-comments.php');
   remove_menu_page('themes.php');
   remove_menu_page('tools.php');
   remove_menu_page('edit.php?post_type=feedback');
-
-  // http://codex.wordpress.org/Function_Reference/add_menu_page
-  add_menu_page( 'API', 'API', 'activate_plugins', 'api', 'api_url', 'dashicons-admin-links', '20.1' );
+  add_menu_page( 'API', 'API', 'activate_plugins', 'api', 'goto_api_docs', 'dashicons-admin-links', '20.1' );
 }
 
 // Add custom fields created by Types plugin to public types_custom_meta key
